@@ -1,0 +1,314 @@
+<script>
+
+/* ============================================================
+   ROUTER.HTML
+   Version : 1.0
+   Mengatur perpindahan halaman (SPA)
+============================================================ */
+
+const pages = {
+    home      : homePage,
+    waSend    : waSendPage,
+    waReply   : waReplyPage,
+    emailSend : emailSendPage,
+    emailReply: emailReplyPage,
+    condolence: condolencePage
+};
+
+/* ============================================================
+   NAVIGATE
+============================================================ */
+
+function navigate(pageName){
+
+    const app = document.getElementById("app");
+
+    if(!pages[pageName]){
+        app.innerHTML = `
+            <div class="card">
+                <h2>404</h2>
+                <p>Halaman tidak ditemukan.</p>
+                <button class="btn"
+                    onclick="navigate('home')">
+                    🏠 Kembali ke Home
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    app.innerHTML = pages[pageName]();
+
+    initPage(pageName);
+
+    if(pageName=="home"){
+
+    setGreeting();
+
+}
+
+}
+
+/* ============================================================
+   INITIALIZE PAGE
+============================================================ */
+
+function initPage(pageName){
+
+    switch(pageName){
+
+        case "waSend":
+            if(typeof initWaSend === "function"){
+                initWaSend();
+            }
+            break;
+
+        case "waReply":
+            if(typeof initWaReply === "function"){
+                initWaReply();
+            }
+            break;
+
+        case "emailSend":
+            if(typeof initEmailSend === "function"){
+                initEmailSend();
+            }
+            break;
+
+        case "emailReply":
+            if(typeof initEmailReply === "function"){
+                initEmailReply();
+            }
+            break;
+
+        case "condolence":
+            if(typeof initCondolence === "function"){
+                initCondolence();
+            }
+            break;
+
+    }
+
+}
+
+/* ============================================================
+   START APPLICATION
+   - Hanya satu window.onload
+   - Tidak ada duplikasi dengan Version.html
+============================================================ */
+
+window.onload = function(){
+
+    document.getElementById("appTitle").innerHTML =
+        "📋 " + getAppName();
+
+    document.getElementById("appVersion").innerHTML =
+    APP.tagline;
+
+    document.getElementById("appCopyright").innerHTML =
+        getCopyright();
+
+    navigate("home");
+
+    setGreeting();
+
+};
+
+function getCurrentUser(callback){
+
+    google.script.run
+        .withSuccessHandler(callback)
+        .getUserEmail();
+
+}
+
+function setGreeting(){
+
+    getCurrentUser(function(email){
+
+        const hour = new Date().getHours();
+
+        let greeting="";
+
+        if(hour>=4 && hour<11){
+
+            greeting="Selamat Pagi";
+
+        }else if(hour<15){
+
+            greeting="Selamat Siang";
+
+        }else if(hour<18){
+
+            greeting="Selamat Sore";
+
+        }else{
+
+            greeting="Selamat Malam";
+
+        }
+
+        let username="Sahabat";
+
+        if(email){
+
+            username=email
+            .split("@")[0]
+            .split(".")[0];
+
+            username=
+            username.charAt(0).toUpperCase()+
+            username.slice(1);
+
+        }
+
+        const islam=
+        document.getElementById("greetingIslam");
+
+        const time=
+        document.getElementById("greetingTime");
+
+        const quote=
+        document.getElementById("dailyQuote");
+
+        if(islam)
+            islam.innerHTML=
+            "🌿 Assalamu'alaikum warahmatullahi wabarakatuh";
+
+        if(time)
+            time.innerHTML=
+            greeting+
+            ", <b>"+username+
+            "</b> 👋";
+
+            const quotes=[
+
+            {
+            icon:"✨",
+            text:"Semoga Allah SWT memudahkan seluruh urusan Anda hari ini."
+            },
+
+            {
+            icon:"🤲",
+            text:"Jadikan setiap pesan sebagai ladang pahala."
+            },
+
+            {
+            icon:"📖",
+            text:"Sampaikan kebaikan dengan tutur kata yang terbaik."
+            },
+
+            {
+            icon:"🌸",
+            text:"Semoga setiap tulisan menjadi amal jariyah."
+            },
+
+            {
+            icon:"🕌",
+            text:"Allah SWT mencintai hamba yang berkata baik."
+            }
+
+            ];
+
+/* ============================================================
+   HADITS QUOTES 
+============================================================ */
+
+            const islamicQuotes = [
+
+            {
+            title:"📖 Firman Allah Ta'ala",
+
+            arabic:"وَإِذَا حُيِّيتُمْ بِتَحِيَّةٍ فَحَيُّوا بِأَحْسَنَ مِنْهَا أَوْ رُدُّوهَا",
+
+            latin:"Wa idzā ḥuyyītum bitaḥiyyatin faḥayyū bi-aḥsana minhā aw ruddūhā.",
+
+            translation:"Apabila kamu diberi penghormatan dengan suatu salam, maka balaslah dengan yang lebih baik atau balaslah dengan yang serupa.",
+
+            source:"QS. An-Nisa' : 86"
+            },
+
+            {
+            title:"🤝 Sabda Rasulullah ﷺ",
+
+            arabic:"أَفْشُوا السَّلَامَ بَيْنَكُمْ",
+
+            latin:"Afsyus salāma bainakum.",
+
+            translation:"Sebarkanlah salam di antara kalian.",
+
+            source:"HR. Muslim No. 54"
+            },
+            
+            {
+            title:"🤲 Sabda Rasulullah ﷺ",
+
+            arabic:"حَقُّ الْمُسْلِمِ عَلَى الْمُسْلِمِ سِتٌّ ... وَإِذَا لَقِيتَهُ فَسَلِّمْ عَلَيْهِ",
+
+            latin:"Haqqul muslimi 'alal muslimi sittun... wa idzā laqītahu fasallim 'alaihi.",
+
+            translation:"Hak seorang muslim atas muslim lainnya ada enam... apabila engkau bertemu dengannya maka ucapkanlah salam.",
+
+            source:"HR. Muslim No. 2162"
+
+            }
+
+            ];
+
+        if(quote){
+
+                      const q =
+            quotes[
+            Math.floor(Math.random()*quotes.length)
+            ];
+
+            quote.innerHTML =
+        '<span style="font-style:normal;">' +
+        q.icon +
+        '</span> ' +
+        '<span style="font-style:italic;">' +
+        q.text +
+        '</span>';
+
+        }
+
+                  const dailyIslamic =
+          document.getElementById("dailyIslamic");
+
+          if(dailyIslamic){
+
+              const h =
+              islamicQuotes[
+                  Math.floor(
+                      Math.random()*islamicQuotes.length
+                  )
+              ];
+
+              dailyIslamic.innerHTML =
+              "<h4 style='text-align:center;'>"+h.title+"</h4>" +
+
+              "<div style='text-align:center;font-size:24px;margin:15px 0;'>"
+              +h.arabic+
+              "</div>" +
+
+              "<p style='text-align:center;font-style:italic;'>"
+              +h.latin+
+              "</p>" +
+
+              "<p style='text-align:justify;'><i>\"" +
+              h.translation +
+              "\"</i></p>" +
+
+              "<p style='text-align:right;'><b>(" +
+              h.source +
+              ")</b></p>";
+
+          }
+
+    });
+
+}
+
+
+
+</script>

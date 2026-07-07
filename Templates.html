@@ -1,0 +1,176 @@
+<script>
+
+/* ============================================================
+   TEMPLATES.HTML
+   Version : 2.0
+   Berisi seluruh template teks aplikasi
+============================================================ */
+
+const TEMPLATE = {
+
+    /* ========================================================
+       WHATSAPP - KIRIM PESAN
+    ======================================================== */
+
+    waSend: {
+
+        opening:
+            "_Assalamu'alaikum warahmatullahi wabarakatuh,_",
+
+        openingArabic:
+            "اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+
+        basmalah:
+            "_Bismillahirrahmanirrahim,_",
+
+        basmalahArabic:
+            "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
+
+        jazakallah:
+            "_Jazakumullahu khairan katsiran,_",
+
+        jazakallahArabic:
+            "جَزَاكُمُ اللّٰهُ خَيْرًا كَثِيرًا",
+
+        closing:
+            "_Wassalamu'alaikum warahmatullahi wabarakatuh._",
+
+        closingArabic:
+            "وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ"
+
+    },
+
+
+    /* ========================================================
+       WHATSAPP - BALAS PESAN
+    ======================================================== */
+
+  waReply: {
+
+    basmalah:
+        "_Bismillahirrahmanirrahim,_",
+
+    basmalahArabic:
+        "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
+
+    replySalam:
+        "_Wa'alaikumus salāmu wa raḥmatullāhi wa barakātuh,_",
+
+    replySalamArabic:
+        "وَعَلَيْكُمُ السَّلَامُ وَرَحْمَةُ اللّٰهِ وَبَرَكَاتُهُ وَمَغْفِرَتُهُ",
+
+    opening:
+        "_Assalamu'alaikum warahmatullahi wabarakatuh,_",
+
+    openingArabic:
+        "اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+
+    jazakallah:
+        "_Jazakumullahu khairan katsiran,_",
+
+    jazakallahArabic:
+        "جَزَاكُمُ اللّٰهُ خَيْرًا كَثِيرًا",
+
+    closing:
+        "_Wassalamu'alaikum warahmatullahi wabarakatuh._",
+
+    closingArabic:
+        "وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ"
+
+},
+
+
+    /* ========================================================
+       EMAIL - KIRIM SURAT
+    ======================================================== */
+
+    emailSend: {
+
+        opening:
+            "Assalamu'alaikum warahmatullahi wabarakatuh,",
+
+        openingArabic:
+            "اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+
+        basmalah:
+            "Bismillahirrahmanirrahim,",
+
+        basmalahArabic:
+            "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
+
+        jazakallah:
+            "_Jazakumullahu khairan katsiran,_",
+
+        jazakallahArabic:
+            "جَزَاكُمُ اللّٰهُ خَيْرًا كَثِيرًا",
+
+        closing:
+            "Wassalamu'alaikum warahmatullahi wabarakatuh.",
+
+        closingArabic:
+            "وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ"
+
+    },
+
+
+    /* ========================================================
+       EMAIL - BALAS SURAT
+    ======================================================== */
+
+emailReply: {
+
+    opening:
+        "Wa'alaikumussalam warahmatullahi wabarakatuh,",
+
+    openingArabic:
+        "وَعَلَيْكُمُ السَّلَامُ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+
+    basmalah:
+        "Bismillahirrahmanirrahim,",
+
+    basmalahArabic:
+        "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
+
+    jazakallah:
+        "Jazakumullahu khairan katsiran,",
+
+    jazakallahArabic:
+        "جَزَاكُمُ اللّٰهُ خَيْرًا كَثِيرًا",
+
+    closing:
+        "Wassalamu'alaikum warahmatullahi wabarakatuh.",
+
+    closingArabic:
+        "وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ"
+
+},
+
+
+    /* ========================================================
+       UCAPAN BELASUNGKAWA
+    ======================================================== */
+
+    condolence: {
+
+    salam:
+        "اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ",
+
+    inna:
+        "إِنَّا لِلّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ",
+
+    doaMale:
+        "اَللّٰهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ",
+
+    doaFemale:
+        "اَللّٰهُمَّ اغْفِرْ لَهَا وَارْحَمْهَا وَعَافِهَا وَاعْفُ عَنْهَا",
+
+    amin:
+        "آمِيْن يَا رَبَّ الْعَالَمِيْن",
+
+    closing:
+        "وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ"
+
+}
+};
+
+</script>

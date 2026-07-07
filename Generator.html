@@ -1,0 +1,651 @@
+<script>
+
+/* ============================================================
+   GENERATOR.HTML
+   Version : 2.1 (bugfix)
+============================================================ */
+
+function autoGrow(el){
+    el.style.height="auto";
+    el.style.height=el.scrollHeight+"px";
+}
+
+const Generator = {
+
+    currentModule : "waSend",
+
+    initWaSend(){
+        this.currentModule = "waSend";
+        this.registerEvents();
+        this.build();
+    },
+
+    initWaReply(){
+        this.currentModule = "waReply";
+        this.registerEvents();
+        this.build();
+    },
+
+    initEmailSend(){
+        this.currentModule="emailSend";
+        this.registerEvents();
+        this.build();
+    },
+
+    initEmailReply(){
+        this.currentModule="emailReply";
+        this.registerEvents();
+        this.build();
+    },
+
+    initCondolence(){
+        this.currentModule="condolence";
+        this.registerEvents();
+        this.build();
+    },
+
+    registerEvents(){
+
+        const ids = [
+            // WhatsApp
+            "opening",
+            "basmalah",
+            "jazakallah",
+            "closing",
+            "message",
+
+            // Email Kirim
+            "recipient",
+            "city",
+            "subject",
+            "emailMessage",
+            "sender",
+
+            // Email Balas
+            "replyRecipient",
+            "replyMessage",
+            "replySender",
+
+            // Belasungkawa
+            "mournerName",
+            "deceasedName",
+            "description"
+        ];
+
+        // FIX: register semua radio buttons termasuk replyMode & gender
+        const allRadios = document.querySelectorAll('input[type="radio"]');
+        allRadios.forEach(radio=>{
+            radio.onchange = ()=>this.build();
+        });
+
+        const emailLanguage =
+            document.querySelectorAll('input[name="emailLanguage"]');
+
+        const emailReplyLanguage =
+            document.querySelectorAll('input[name="emailReplyLanguage"]');
+
+        emailReplyLanguage.forEach(radio=>{
+            radio.onchange=()=>this.build();
+        });
+
+        emailLanguage.forEach(radio=>{
+            radio.onchange=()=>this.build();
+        });
+
+        ids.forEach(id=>{
+            const obj = document.getElementById(id);
+            if(!obj) return;
+            obj.oninput = ()=>{
+                autoGrow(obj);
+                this.build();
+            };
+            obj.onchange = ()=>this.build();
+        });
+
+    },
+
+    build(){
+
+        console.log("Current Module =", this.currentModule);
+        //alert("Generator Version 2.1");
+
+        if(this.currentModule=="emailSend"){
+            this.buildEmail();
+            return;
+        }
+
+        if(this.currentModule=="condolence"){
+            this.buildCondolence();
+            return;
+        }
+
+        if(this.currentModule=="emailReply"){
+            this.buildEmailReply();
+            return;
+        }
+
+        const data = TEMPLATE[this.currentModule];
+
+        if(!data) return;
+
+        const format = document.querySelector(
+            'input[name="formatSalam"]:checked'
+        )?.value || "latin";
+
+        const opening =
+            format=="arabic"
+            ? data.openingArabic
+            : data.opening;
+
+        const basmalah =
+            format=="arabic"
+            ? data.basmalahArabic
+            : data.basmalah;
+
+        const jazakallah =
+            format=="arabic"
+            ? data.jazakallahArabic
+            : data.jazakallah;
+
+        const closing =
+            format=="arabic"
+            ? data.closingArabic
+            : data.closing;
+
+        const replySalam =
+            format=="arabic"
+            ? data.replySalamArabic
+            : data.replySalam;
+
+        let result = [];
+
+        /* ==========================================
+           PEMBUKA
+        ========================================== */
+
+        if(this.currentModule=="waReply"){
+
+            if(this.checked("basmalah"))
+                result.push(basmalah);
+
+            // FIX: baca replyMode radio button
+            const replyMode = document.querySelector(
+                'input[name="replyMode"]:checked'
+            )?.value || "reply";
+
+            if(replyMode=="reply"){
+                result.push(replySalam);
+            }else if(replyMode=="opening"){
+                result.push(opening);
+            }
+            // replyMode=="none" -> tidak tambah salam pembuka
+
+        }else{
+
+            if(this.checked("opening"))
+                result.push(opening);
+
+            if(this.checked("basmalah"))
+                result.push(basmalah);
+            
+        }
+
+        result.push("");
+
+        /* ==========================================
+           ISI PESAN
+        ========================================== */
+
+        const message = this.value("message");
+
+        if(message !== "")
+            result.push(message);
+
+            result.push("");
+
+        if(this.checked("jazakallah"))
+            result.push(jazakallah);
+
+        if(this.checked("closing"))
+            result.push(closing);
+
+        const preview = document.getElementById("preview");
+
+        if(preview){
+            
+            preview.value = result.join("\n");
+        }
+
+    },
+
+    buildEmail(){
+
+        const data = TEMPLATE.emailSend;
+
+        const lang =
+            document.querySelector(
+                'input[name="emailLanguage"]:checked'
+            )?.value || "id";
+
+        const recipient = this.value("recipient");
+        const city      = this.value("city");
+        const subject   = this.value("subject");
+        const message   = this.value("emailMessage");
+        const sender    = this.value("sender");
+
+        let result=[];
+
+        const today =
+            new Date().toLocaleDateString(
+                "en-US",
+                {
+                    month:"long",
+                    day:"numeric",
+                    year:"numeric"
+                }
+            );
+
+        if(lang=="en"){
+            result.push(today);
+            result.push("");
+        }
+
+        /* ==========================
+           PENERIMA
+        ========================== */
+
+        if(lang!="en"){
+            result.push("Yth.");
+        }
+
+        if(recipient!="")
+            result.push(recipient);
+
+        if(city!=""){
+            if(lang=="en"){
+                result.push(city);
+            }else{
+                result.push("Di " + city);
+            }
+            result.push("");
+        }
+
+        /* ==========================
+           PEMBUKA
+        ========================== */
+
+        if(lang=="ar"){
+            result.push(data.basmalahArabic);
+        }else{
+            result.push(data.basmalah);
+        }
+
+        result.push("");
+
+        if(lang=="ar"){
+            result.push(data.openingArabic);
+        }else{
+            result.push(data.opening);
+        }
+
+        result.push("");
+
+        /* ==========================
+           SUBJEK
+        ========================== */
+
+        if(subject!=""){
+            if(lang=="en"){
+                result.push("Subject : " + subject);
+            }else{
+                result.push("Perihal : " + subject);
+            }
+            result.push("");
+        }
+
+        /* ==========================
+           ISI
+        ========================== */
+
+        result.push(message);
+        result.push("");
+
+        /* ==========================
+           PENUTUP
+        ========================== */
+
+        if(lang=="id"){
+            result.push("Terima kasih atas perhatiannya.");
+            result.push("");
+            result.push(data.closing);
+        }
+
+        if(lang=="en"){
+            result.push("Thank you.");
+            result.push("");
+            result.push(data.closing);
+        }
+
+        if(lang=="ar"){
+            result.push(data.jazakallahArabic);
+            result.push("");
+            result.push(data.closingArabic);
+        }
+
+        result.push("");
+
+        if(lang=="en"){
+            result.push("Best Regards,");
+        }else{
+            result.push("Hormat kami,");
+        }
+
+        result.push("");
+        result.push(sender);
+
+        document.getElementById("preview").value =
+            result.join("\n");
+
+    },
+
+    buildEmailReply(){
+
+        const data = TEMPLATE.emailReply;
+
+        const lang =
+            document.querySelector(
+                'input[name="emailReplyLanguage"]:checked'
+            )?.value || "id";
+
+        const recipient = this.value("replyRecipient");
+        const message   = this.value("replyMessage");
+        const sender    = this.value("replySender");
+
+        let result=[];
+
+        /* ======================
+           PENERIMA
+        ====================== */
+
+        if(recipient!=""){
+            if(lang=="en"){
+                result.push("Dear");
+            }else{
+                result.push("Yth.");
+            }
+            result.push(recipient);
+            result.push("");
+        }
+
+        /* ======================
+           PEMBUKA
+        ====================== */
+
+        if(lang=="ar"){
+            result.push(data.basmalahArabic);
+            result.push("");
+            result.push(data.openingArabic);
+        }else{
+            result.push(data.basmalah);
+            result.push("");
+            result.push(data.opening);
+        }
+
+        result.push("");
+
+        /* ======================
+           ISI
+        ====================== */
+
+        result.push(message);
+        result.push("");
+
+        /* ======================
+           PENUTUP
+        ====================== */
+
+        if(lang=="id"){
+            result.push("Terima kasih atas perhatiannya.");
+            result.push("");
+            result.push(data.closing);
+        }
+
+        if(lang=="en"){
+            result.push("Thank you.");
+            result.push("");
+            result.push(data.closing);
+        }
+
+        if(lang=="ar"){
+            result.push(data.jazakallahArabic);
+            result.push("");
+            result.push(data.closingArabic);
+        }
+
+        result.push("");
+
+        if(lang=="en"){
+            result.push("Best Regards,");
+        }else{
+            result.push("Hormat kami,");
+        }
+
+        result.push("");
+        result.push(sender);
+
+        document.getElementById("preview").value =
+            result.join("\n");
+
+    },
+
+    buildCondolence(){
+
+        const family   = this.value("mournerName");
+        const deceased = this.value("deceasedName");
+        const info     = this.value("description");
+
+        const gender =
+            document.querySelector(
+                'input[name="gender"]:checked'
+            )?.value || "male";
+
+        let result = [];
+
+          result.push(
+          "اَلسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ");
+
+          result.push(
+          "إِنَّا لِلّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ");
+
+          result.push("");
+
+        if(family!=""){
+            result.push(family + ", ndherek belasungkawa.");
+            result.push("");
+        }
+
+        let status =
+            gender=="female"
+            ? "almarhumah"
+            : "almarhum";
+
+        let doa =
+            gender=="female"
+            ? "اَللّٰهُمَّ اغْفِرْ لَهَا وَارْحَمْهَا وَعَافِهَا وَاعْفُ عَنْهَا"
+            : "اَللّٰهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ";
+
+        let nama = deceased;
+
+        if(info!=""){
+            nama += " (" + info + ")";
+        }
+
+        result.push(
+            "Semoga " + status + " " + nama +
+            " wafat dalam keadaan husnul khatimah, diampuni segala dosa dan kesalahannya, diterima seluruh amal ibadahnya, ditempatkan di tempat terbaik di sisi-Nya, serta keluarga yang ditinggalkan diberikan kesabaran dan keikhlasan.");
+
+        result.push("");
+              result.push(doa);
+        result.push(
+        "آمِيْن يَا رَبَّ الْعَالَمِيْن");
+        result.push(
+        "وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ");
+
+        document.getElementById("preview").value =
+            result.join("\n");
+
+    },
+
+    /* ============================================================
+       COPY — FIX: posisi method copy dipindah ke sini (bukan di
+       dalam buildEmail seperti di versi sebelumnya)
+    ============================================================ */
+
+    copy(){
+        const preview = document.getElementById("preview");
+        if(!preview) return;
+        navigator.clipboard.writeText(preview.value);
+
+        let message = "✅ Template berhasil disalin ke Clipboard.";
+
+        if(
+            this.currentModule=="waSend" ||
+            this.currentModule=="waReply"
+        ){
+
+            message +=
+            "\n\n📱 Silakan tempel (Paste) template pada kolom percakapan WhatsApp yang diinginkan.";
+
+        }
+        if(
+        this.currentModule=="emailSend" ||
+        this.currentModule=="emailReply"
+        ){
+
+            message +=
+            "\n\n📧 Silakan tempel (Paste) template ke aplikasi atau browser e-mail yang Anda gunakan." +
+            "\n\n✍️ Pastikan signature e-mail telah aktif sebelum menekan tombol Kirim (Send).";
+
+        }
+
+        if(this.currentModule=="condolence"){
+
+            message +=
+            "\n\n🤲 Silakan tempel (Paste) template pada aplikasi WhatsApp atau media komunikasi yang diinginkan.";
+
+        }
+
+        alert(message);
+    },
+
+    clear(){
+
+        switch(this.currentModule){
+
+            /* ==========================
+               WHATSAPP KIRIM
+            ========================== */
+            case "waSend":
+                this.setChecked("opening",true);
+                this.setChecked("basmalah",false);
+                this.setChecked("jazakallah",false);
+                this.setChecked("closing",true);
+                this.setValue("message","");
+                break;
+
+            /* ==========================
+               WHATSAPP BALAS
+            ========================== */
+            case "waReply":
+                this.setChecked("basmalah",false);
+                this.setChecked("jazakallah",false);
+                this.setChecked("closing",true);
+                this.setValue("message","");
+                const reply =
+                    document.querySelector(
+                        'input[name="replyMode"][value="reply"]');
+                if(reply) reply.checked = true;
+                break;
+
+            /* ==========================
+               EMAIL KIRIM
+            ========================== */
+            case "emailSend":
+                this.setValue("recipient","");
+                this.setValue("city","");
+                this.setValue("subject","");
+                this.setValue("emailMessage","");
+                this.setValue("sender","");
+                const bahasa =
+                    document.querySelector(
+                        'input[name="emailLanguage"][value="id"]');
+                if(bahasa) bahasa.checked = true;
+                break;
+
+            /* ==========================
+               EMAIL BALAS
+            ========================== */
+            case "emailReply":
+                this.setValue("replyRecipient","");
+                this.setValue("replyMessage","");
+                this.setValue("replySender","");
+                const bahasaReply =
+                    document.querySelector(
+                        'input[name="emailReplyLanguage"][value="id"]');
+                if(bahasaReply) bahasaReply.checked = true;
+                break;
+
+            /* ==========================
+               CONDOLENCE
+            ========================== */
+            case "condolence":
+                this.setValue("mournerName","");
+                this.setValue("deceasedName","");
+                this.setValue("description","");
+                const gender =
+                    document.querySelector(
+                        'input[name="gender"][value="male"]');
+                if(gender) gender.checked = true;
+                break;
+
+        }
+
+        this.build();
+
+    },
+
+    checked(id){
+        const obj = document.getElementById(id);
+        return obj ? obj.checked : false;
+    },
+
+    value(id){
+        const obj = document.getElementById(id);
+        return obj ? obj.value.trim() : "";
+    },
+
+    setChecked(id,val){
+        const obj = document.getElementById(id);
+        if(obj){ obj.checked = val; }
+    },
+
+    setValue(id,val){
+        const obj = document.getElementById(id);
+        if(obj){ obj.value = val; }
+    }
+
+};
+
+/* ============================================================
+   WRAPPER FUNCTIONS
+============================================================ */
+
+function initWaSend()    { Generator.initWaSend();    }
+function initWaReply()   { Generator.initWaReply();   }
+function initEmailSend() { Generator.initEmailSend(); }
+function initEmailReply(){ Generator.initEmailReply();}
+function initCondolence(){ Generator.initCondolence();}
+function copyClipboard() { Generator.copy();          }
+function clearForm()     { Generator.clear();         }
+
+</script>

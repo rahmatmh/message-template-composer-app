@@ -1,0 +1,565 @@
+<script>
+
+/* ============================================================
+   PAGES.HTML
+   Version : 2.1 (bugfix)
+============================================================ */
+
+/* ============================================================
+   ICON WA
+============================================================ */
+function iconWhatsApp(){
+return `
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 24 24"
+     width="42" height="42">
+    <path fill="#25D366"
+          d="M12 0C5.373 0 0 5.373 0 12c0 2.12.555
+             4.112 1.523 5.84L0 24l6.332-1.5A11.93
+             11.93 0 0 0 12 24c6.627 0 12-5.373
+             12-12S18.627 0 12 0z"/>
+    <path fill="#fff"
+          d="M17.472 14.382c-.297-.149-1.758-.867
+             -2.03-.967-.273-.099-.471-.148-.67.15
+             -.197.297-.767.966-.94 1.164-.173.199
+             -.347.223-.644.075-.297-.15-1.255-.463
+             -2.39-1.475-.883-.788-1.48-1.761-1.653
+             -2.059-.173-.297-.018-.458.13-.606.134
+             -.133.298-.347.446-.52.149-.174.198-.298
+             .298-.497.099-.198.05-.371-.025-.52-.075
+             -.149-.669-1.612-.916-2.207-.242-.579
+             -.487-.5-.669-.51-.173-.008-.371-.01-.57
+             -.01-.198 0-.52.074-.792.372-.272.297
+             -1.04 1.016-1.04 2.479 0 1.462 1.065
+             2.875 1.213 3.074.149.198 2.096 3.2
+             5.077 4.487.709.306 1.262.489 1.694.625
+             .712.227 1.36.195 1.871.118.571-.085
+             1.758-.719 2.006-1.413.248-.694.248
+             -1.289.173-1.413-.074-.124-.272-.198
+             -.57-.347z"/>
+</svg>
+`;
+}
+
+/* ============================================================
+   HOME PAGE
+============================================================ */
+function homePage() {
+return `
+<div class="card">
+
+<h2 id="greetingIslam"></h2>
+<p id="greetingTime"></p>
+
+<p id="dailyQuote"
+   style="margin-top:15px;color:#1565C0;font-style:italic;font-size:15px;">
+</p>
+
+<p style="
+margin:20px 0 25px 0;
+text-align:center;
+font-size:15px;
+line-height:1.7;
+color:#555;
+">
+
+Silakan pilih salah satu menu di bawah untuk mulai membuat template pesan.<br>
+Semoga setiap kata yang ditulis menjadi wasilah dalam menyebarkan salam,
+kebaikan, dan keberkahan.
+
+</p>
+
+    <div class="menu-grid">
+
+        <!-- WhatsApp Kirim -->
+        <button class="menu-btn" onclick="navigate('waSend')">
+            <div class="menu-icon">${iconWhatsApp()}</div>
+            <div class="menu-title">WhatsApp</div>
+            <div class="menu-subtitle">📤 Kirim Pesan</div>
+        </button>
+
+        <!-- WhatsApp Balas -->
+        <button class="menu-btn" onclick="navigate('waReply')">
+            <div class="menu-icon">${iconWhatsApp()}</div>
+            <div class="menu-title">WhatsApp</div>
+            <div class="menu-subtitle">💬 Balas Pesan</div>
+        </button>
+
+        <!-- Email Kirim -->
+        <button class="menu-btn" onclick="navigate('emailSend')">
+            <div class="menu-icon">📨</div>
+            <div class="menu-title">E-mail</div>
+            <div class="menu-subtitle">Kirim Surat</div>
+        </button>
+
+        <!-- Email Balas -->
+        <button class="menu-btn" onclick="navigate('emailReply')">
+            <div class="menu-icon">📧</div>
+            <div class="menu-title">E-mail</div>
+            <div class="menu-subtitle">Balas Surat</div>
+        </button>
+
+        <!-- Belasungkawa -->
+        <button class="menu-btn" onclick="navigate('condolence')">
+            <div class="menu-icon">🤲</div>
+            <div class="menu-title">Ucapan</div>
+            <div class="menu-subtitle">Belasungkawa</div>
+        </button>
+
+       </div>
+
+<hr style="margin:35px 0 20px 0;">
+
+<h3 style="text-align:center;">
+🌿 Mengapa harus mengucapkan dan menjawab salam? 
+</h3>
+
+<div class="card" style="margin-top:15px;">
+
+<div id="dailyIslamic"></div>
+
+<hr>
+
+<p style="
+text-align:center;
+font-size:20px;
+margin:0;
+line-height:1.5;
+">
+
+وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
+
+</p>
+
+<p style="
+text-align:center;
+font-size:13px;
+font-style:italic;
+color:#666;
+margin:0;
+">
+
+Semoga Allah melimpahkan keselamatan, rahmat, dan keberkahan-Nya kepada kita semua.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+`;
+}
+
+/* ============================================================
+   WHATSAPP - KIRIM PESAN
+   FIX #1: textarea id="message" (bukan "emailMessage")
+   FIX #2: radio name="formatSalam" value="arabic" (bukan "emailLanguage")
+============================================================ */
+function waSendPage(){
+return `
+<div class="card">
+
+    <button class="btn" onclick="navigate('home')">🏠 Home</button>
+
+    <h2 style="margin-top:20px;">📤 WhatsApp - Kirim Pesan</h2>
+
+    <p>Pilih format salam kemudian tuliskan isi pesan.</p>
+
+    <hr><br>
+
+    <h3>Format Salam</h3>
+
+    <div class="checkbox-group">
+
+        <label>
+            <input type="radio" name="formatSalam" value="latin" checked>
+            Latin
+        </label>
+
+        <!-- FIX: name="formatSalam" value="arabic" -->
+        <label>
+            <input type="radio" name="formatSalam" value="arabic">
+            🇸🇦 العربية
+        </label>
+
+    </div>
+
+    <br>
+
+    <h3>Pembuka</h3>
+
+    <div class="checkbox-group">
+
+        <label>
+            <input type="checkbox" id="opening" checked>
+            Salam Pembuka
+        </label>
+
+        <label>
+            <input type="checkbox" id="basmalah">
+            Basmalah
+        </label>
+
+    </div>
+
+    <br>
+
+    <h3>Isi Pesan</h3>
+
+    <!-- FIX: id="message" agar terbaca oleh Generator.value("message") -->
+    <textarea
+        id="message"
+        placeholder="Tulis isi pesan..."></textarea>
+
+    <br><br>
+
+    <h3>Penutup</h3>
+
+    <div class="checkbox-group">
+
+        <label>
+            <input type="checkbox" id="jazakallah">
+            Jazakumullahu khairan katsiran
+        </label>
+
+        <label>
+            <input type="checkbox" id="closing" checked>
+            Salam Penutup
+        </label>
+
+    </div>
+
+    <br>
+
+    <h3>Hasil Template</h3>
+
+    <textarea id="preview" readonly></textarea>
+
+    <div class="action">
+        <button class="btn" onclick="copyClipboard()">📋 Copy</button>
+        <button class="btn" onclick="clearForm()">🗑 Bersihkan</button>
+    </div>
+
+</div>
+`;
+}
+
+/* ============================================================
+   WHATSAPP - BALAS PESAN
+============================================================ */
+function waReplyPage(){
+return `
+<div class="card">
+
+    <button class="btn" onclick="navigate('home')">🏠 Home</button>
+
+    <h2 style="margin-top:20px;">💬 WhatsApp - Balas Pesan</h2>
+
+    <p>Pilih format salam kemudian tuliskan isi pesan balasan.</p>
+
+    <hr><br>
+
+    <h3>Format Salam</h3>
+
+    <div class="checkbox-group">
+
+        <label>
+            <input type="radio" name="formatSalam" value="latin" checked>
+            Latin
+        </label>
+
+        <label>
+            <input type="radio" name="formatSalam" value="arabic">
+            Arab
+        </label>
+
+    </div>
+
+    <br>
+
+    <h3>Pembuka</h3>
+
+    <div class="checkbox-group">
+        <label>
+            <input type="checkbox" id="basmalah">
+            Basmalah
+        </label>
+    </div>
+
+    <h3>Jenis Salam</h3>
+
+    <div class="checkbox-group">
+
+        <label>
+            <input type="radio" name="replyMode" value="reply" checked>
+            Jawab Salam
+        </label>
+
+        <label>
+            <input type="radio" name="replyMode" value="opening">
+            Salam Pembuka
+        </label>
+
+        <label>
+            <input type="radio" name="replyMode" value="none">
+            Tanpa Salam
+        </label>
+
+    </div>
+
+    <br>
+
+    <h3>Isi Pesan</h3>
+
+    <textarea
+        id="message"
+        placeholder="Tulis isi pesan balasan di sini..."></textarea>
+
+    <br><br>
+
+    <h3>Penutup</h3>
+
+    <div class="checkbox-group">
+
+        <label>
+            <input type="checkbox" id="jazakallah">
+            Jazakumullahu khairan katsiran
+        </label>
+
+        <label>
+            <input type="checkbox" id="closing" checked>
+            Salam Penutup
+        </label>
+
+    </div>
+
+    <br>
+
+    <h3>Hasil Template</h3>
+
+    <textarea id="preview" readonly></textarea>
+
+    <div class="action">
+        <button class="btn" onclick="copyClipboard()">📋 Copy</button>
+        <button class="btn" onclick="clearForm()">🗑 Bersihkan</button>
+    </div>
+
+</div>
+`;
+}
+
+
+/* ============================================================
+   EMAIL - KIRIM SURAT
+============================================================ */
+function emailSendPage(){
+return `
+<div class="card">
+
+<button class="btn" onclick="navigate('home')">🏠 Home</button>
+
+<h2 style="margin-top:20px;">📨 E-mail - Kirim Surat</h2>
+
+<p>Membuat template E-mail formal maupun semi formal.</p>
+
+<hr><br>
+
+<h3>Bahasa</h3>
+
+<div class="checkbox-group">
+
+    <label>
+        <input type="radio" name="emailLanguage" value="id" checked>
+        🇮🇩 ID
+    </label>
+
+    <label>
+        <input type="radio" name="emailLanguage" value="en">
+        🇬🇧 EN
+    </label>
+
+    <label>
+        <input type="radio" name="emailLanguage" value="ar">
+        🇸🇦 AR
+    </label>
+
+</div>
+
+<br>
+
+<h3>Penerima</h3>
+<textarea id="recipient" rows="1" class="auto-grow"
+    placeholder="Nama penerima beserta jabatan/keterangan"></textarea>
+
+<br><br>
+
+<h3>Kota / Tempat</h3>
+<textarea id="city" rows="1" class="auto-grow"
+    placeholder="Yogyakarta"></textarea>
+
+<br><br>
+
+<h3>Subjek</h3>
+<input type="text" id="subject" placeholder="Subjek email">
+
+<br><br>
+
+<h3>Isi Surat</h3>
+<textarea id="emailMessage" placeholder="Tulis isi surat..."></textarea>
+
+<br><br>
+
+<h3>Nama Pengirim</h3>
+<textarea id="sender" rows="1" class="auto-grow"
+    placeholder="Nama pengirim"></textarea>
+
+<br><br>
+
+<h3>Hasil Template</h3>
+<textarea id="preview" readonly></textarea>
+
+<div class="action">
+    <button class="btn" onclick="copyClipboard()">📋 Copy</button>
+    <button class="btn" onclick="clearForm()">🗑 Bersihkan</button>
+</div>
+
+</div>
+`;
+}
+
+
+/* ============================================================
+   EMAIL - BALAS SURAT
+============================================================ */
+function emailReplyPage(){
+return `
+<div class="card">
+
+<button class="btn" onclick="navigate('home')">🏠 Home</button>
+
+<h2 style="margin-top:20px;">📧 E-mail - Balas Surat</h2>
+
+<p>Membuat template balasan E-mail formal maupun semi formal.</p>
+
+<hr><br>
+
+<h3>Bahasa</h3>
+
+<div class="checkbox-group">
+
+    <label>
+        <input type="radio" name="emailReplyLanguage" value="id" checked>
+        🇮🇩 ID
+    </label>
+
+    <label>
+        <input type="radio" name="emailReplyLanguage" value="en">
+        🇺🇸 EN
+    </label>
+
+    <label>
+        <input type="radio" name="emailReplyLanguage" value="ar">
+        🇸🇦 AR
+    </label>
+
+</div>
+
+<br>
+
+<h3>Penerima (Opsional)</h3>
+<textarea id="replyRecipient" rows="1" class="auto-grow"
+    placeholder="Nama penerima"></textarea>
+
+<br><br>
+
+<h3>Isi Surat</h3>
+<textarea id="replyMessage" placeholder="Tulis isi surat balasan..."></textarea>
+
+<br><br>
+
+<h3>Nama Pengirim</h3>
+<textarea id="replySender" rows="1" class="auto-grow"
+    placeholder="Nama pengirim"></textarea>
+
+<br><br>
+
+<h3>Hasil Template</h3>
+<textarea id="preview" readonly></textarea>
+
+<div class="action">
+    <button class="btn" onclick="copyClipboard()">📋 Copy</button>
+    <button class="btn" onclick="clearForm()">🗑 Bersihkan</button>
+</div>
+
+</div>
+`;
+}
+
+/* ============================================================
+   UCAPAN BELASUNGKAWA
+============================================================ */
+function condolencePage(){
+return `
+<div class="card">
+
+<button class="btn" onclick="navigate('home')">🏠 Home</button>
+
+<h2 style="margin-top:20px;">🤲 Ucapan Belasungkawa</h2>
+
+<p>Membuat template ucapan belasungkawa Islami.</p>
+
+<hr><br>
+
+<h3>Nama yang Berduka</h3>
+<textarea id="mournerName" rows="1" class="auto-grow"
+    placeholder="Contoh: Bapak Ahmad dan Keluarga"></textarea>
+
+<br><br>
+
+<h3>Nama Almarhum / Almarhumah</h3>
+<textarea id="deceasedName" rows="1" class="auto-grow"
+    placeholder="Contoh: Ibu Sujanah"></textarea>
+
+<br><br>
+
+<h3>Jenis Kelamin</h3>
+
+<div class="checkbox-group">
+
+    <label>
+        <input type="radio" name="gender" value="male" checked>
+        👨 Laki-laki
+    </label>
+
+    <label>
+        <input type="radio" name="gender" value="female">
+        👩 Perempuan
+    </label>
+
+</div>
+
+<h3>Keterangan (Opsional)</h3>
+<textarea id="description" rows="2" class="auto-grow"
+    placeholder="Contoh: Ibunda tercinta"></textarea>
+
+<br><br>
+
+<h3>Hasil Template</h3>
+<textarea id="preview" readonly></textarea>
+
+<div class="action">
+    <button class="btn" onclick="copyClipboard()">📋 Copy</button>
+    <button class="btn" onclick="clearForm()">🗑 Bersihkan</button>
+</div>
+
+</div>
+`;
+}
+
+/* ============================================================
+   END OF FILE
+============================================================ */
+
+</script>

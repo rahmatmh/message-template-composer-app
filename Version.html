@@ -1,0 +1,63 @@
+<script>
+
+/* ============================================================
+   VERSION.HTML
+   Version : 1.0
+============================================================ */
+
+const APP = {
+
+    name      : "Message Template Composer",
+
+    version   : "2.0.0",
+
+    tagline   : "WhatsApp • E-mail • Messages",
+
+    copyright : "rahmatmh.com © 2026"
+
+};
+
+
+/* ============================================================
+   GET APP NAME
+============================================================ */
+
+function getAppName(){
+
+    return APP.name;
+
+}
+
+
+/* ============================================================
+   GET VERSION
+============================================================ */
+
+function getVersion(){
+
+    return APP.version;
+
+}
+
+/* ============================================================
+   GET COPYRIGHT
+============================================================ */
+
+function getCopyright(){
+
+    return APP.copyright;
+
+}
+
+function getCurrentUser(callback){
+
+    google.script.run
+        .withSuccessHandler(callback)
+        .getUserEmail();
+
+}
+
+
+
+
+</script>

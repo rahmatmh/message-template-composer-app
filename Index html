@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <base target="_top">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Message Template Composer</title>
+
+    <?!= include("Style"); ?>
+
+</head>
+
+<body>
+
+    <!-- ======================================================
+         HEADER
+    ======================================================= -->
+
+    <header>
+
+        <h1 id="appTitle"></h1>
+
+        <p id="appVersion"></p>
+
+    </header>
+
+    <!-- ======================================================
+         CONTENT
+    ======================================================= -->
+
+    <main id="app">
+
+    </main>
+
+    <!-- ======================================================
+         FOOTER
+    ======================================================= -->
+
+    <footer>
+
+        <span id="appCopyright"></span>
+
+    </footer>
+
+    <!-- ======================================================
+         JAVASCRIPT
+    ======================================================= -->
+
+    <?!= include("Version"); ?>
+
+    <?!= include("Templates"); ?>
+
+    <?!= include("Pages"); ?>
+
+    <?!= include("Router"); ?>
+
+    <?!= include("Generator"); ?>
+
+</body>
+
+</html>
