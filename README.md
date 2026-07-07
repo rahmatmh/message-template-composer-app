@@ -50,7 +50,7 @@ A web-based **Message Template Composer** built with **Google Apps Script** to h
 
 Web App
 
-> rahmatmh.com/pesan
+> https://rahmatmh.com/pesan
 > or 
 > https://script.google.com/macros/s/AKfycbyJJN2IUrM-eP-dcGVcYPvWHtYiX5lqzr7Q6VmCFcB8oc2oHA1rv183c51ELN8ENyoF8w/exec
 
