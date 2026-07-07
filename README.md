@@ -23,17 +23,17 @@ A web-based **Message Template Composer** built with **Google Apps Script** to h
 
 
 <!--
-![Home](assets/01 Home Page Message Template Composer.png)
+![Home](assets/01_Home.png)
 
-![WhatsApp Send](assets/02 Kirim WA - Message Template Composer.png)
+![WhatsApp Send](assets/02_Kirim_WA.png)
 
-![WhatsApp Reply](assets/03 Balas WA - Message Template Composer.png)
+![WhatsApp Reply](assets/03_Balas_WA.png)
 
-![Email Send](assets/04 Kirim Email - Message Template Composer.png.png)
+![Email Send](assets/04_Kirim_Email.png)
 
-![Email Reply](assets/05  Balas Email - Message Template Composer.png)
+![Email Reply](assets/05_Balas_Email.png)
 
-![Condolence](assets/06 Ucapan Belasungkawa - Message Template Composer.png)
+![Condolence](assets/06_Ucapan_Belasungkawa.png)
 -->
 
 ---
