@@ -22,7 +22,7 @@ A web-based **Message Template Composer** built with **Google Apps Script** to h
 
 
 
-<!--
+
 ![Home](assets/01_Home.png)
 
 ![WhatsApp Send](assets/02_Kirim_WA.png)
@@ -34,7 +34,6 @@ A web-based **Message Template Composer** built with **Google Apps Script** to h
 ![Email Reply](assets/05_Balas_Email.png)
 
 ![Condolence](assets/06_Ucapan_Belasungkawa.png)
--->
 
 ---
 
